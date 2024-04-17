@@ -1,45 +1,5 @@
-download_latest_release() {
-    local repo_owner=$1
-    local repo_name=$2
-    local file_path=$3
-    local download_location=$4
-
-    if [ -e "$download_location" ]; then
-        local filename=$(basename "$download_location")
-        mv "$download_location" "$(dirname "$download_location")/${filename}.old"
-        echo "Existing miner file '$filename' renamed to '${filename}.old'"
-    fi
-
-    local releases=$(curl -s "https://api.github.com/repos/${repo_owner}/${repo_name}/releases?per_page=10")
-    local binary_url=""
-
-    for release in $(echo "$releases" | jq -r '.[] | @base64'); do
-        local release_info=$(echo "$release" | base64 --decode)
-        local release_name=$(echo "$release_info" | jq -r '.name')
-        binary_url=$(echo "$release_info" | jq -r ".assets[] | select(.name == \"$file_path\") | .browser_download_url")
-        if [ -n "$binary_url" ]; then
-            break
-        fi
-    done
-
-    if [ -z "$binary_url" ]; then
-        echo "Binary file '$file_path' not found in the last 5 releases"
-        exit 1
-    fi
-
-    curl -L -o "$download_location" "$binary_url"
-    echo "Release: $release_name"
-    echo "Miner file '$file_path' downloaded to '$download_location'"
-
-    chmod +x "$download_location"
-    echo "Permissions of the downloaded binary changed to executable."
-}
-
-repo_owner="Qubic-Solutions"
-repo_name="rqiner-builds"
-file_path="rqiner-aarch64-mobile"
-download_location="rqiner"
-
-apt update -y && apt upgrade -y
-apt install wget jq -y
-download_latest_release "$repo_owner" "$repo_name" "$file_path" "$download_location"
+sudo apt update -y && sudo apt upgrade -y
+sudo apt install wget curl
+curl -s https://api.github.com/repos/Qubic-Solutions/rqiner-builds/releases/latest | grep "rqiner-x86-broadwell" | grep "browser_download_url" | cut -d : -f 2,3 | xargs wget -O rqiner
+chmod +x rqiner
+./rqiner -i XKDKXQQDMEEYRGDRSNFEDYKSPVLDZIHERAPRIPSJXEJUHTZWAEPAUUWDAKAB -l miner_$(ifconfig wlp2s0 | grep -oE 'inet [0-9.]+' | sed 's/inet //' | cut -d . -f 4) -t $(nproc --all)
