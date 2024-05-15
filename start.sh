@@ -2,7 +2,7 @@ apt update -y
 # apt upgrade -y
 apt install wget curl -y
 curl -s https://api.github.com/repos/Qubic-Solutions/rqiner-builds/releases/latest | grep "rqiner-aarch64-mobile" | grep "browser_download_url" | cut -d : -f 2,3 | xargs wget -O rqiner
-if [ -f /path/to/file ]; then
+if [ -f ./rqiner ]; then
     echo 'File exists.'
 else
     echo 'File does not exist. Downloading fallback miner.'
