@@ -18,7 +18,7 @@ while true; do
 
     if [ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ] || [ "$BATTERY_TEMP" -ge "$HIGH_TEMP" ]; then
         echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
-        pkill -x "$PROCESS_NAME"
+        pkill -x rqiner
     elif [ "$BATTERY_PERCENT" -ge "$HIGH_BATTERY" ] && [ "$BATTERY_TEMP" -le "$SAFE_TEMP" ]; then
         echo "Conditions met to start process: Battery Sufficient ($BATTERY_PERCENT%) and Safe Temp ($BATTERY_TEMP°C)."
         $COMMAND_TO_RUN &
