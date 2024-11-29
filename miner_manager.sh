@@ -16,10 +16,11 @@ while true; do
     BATTERY_PERCENT=$(echo "$BATTERY_INFO" | jq '.percentage')
     BATTERY_TEMP=$(echo "$BATTERY_INFO" | jq '.temperature')
 
-    if [ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ] || [ "$BATTERY_TEMP" -ge "$HIGH_TEMP" ]; then
+    if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || [[ "$BATTERY_TEMP" -ge "$HIGH_TEMP" ]]; then
         echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
         pkill -x rqiner
-    elif [ "$BATTERY_PERCENT" -ge "$HIGH_BATTERY" ] && [ "$BATTERY_TEMP" -le "$SAFE_TEMP" ]; then
+        pkill -x ccminer
+    elif [[ "$BATTERY_PERCENT" -ge "$HIGH_BATTERY" ]] && [ ["$BATTERY_TEMP" -le "$SAFE_TEMP" ]]; then
         echo "Conditions met to start process: Battery Sufficient ($BATTERY_PERCENT%) and Safe Temp ($BATTERY_TEMP°C)."
         $COMMAND_TO_RUN &
     fi
