@@ -7,4 +7,6 @@ termux-wake-lock
 while true
 do
     timeout 12h bash miner_manager.sh
+    pkill -x rqiner
+    pkill -x ccminer
 done
