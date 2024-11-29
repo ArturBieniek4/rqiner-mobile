@@ -15,11 +15,6 @@ while true; do
     BATTERY_INFO=$(termux-battery-status)
     BATTERY_PERCENT=$(echo "$BATTERY_INFO" | jq '.percentage')
     BATTERY_TEMP=$(echo "$BATTERY_INFO" | jq '.temperature')
-    if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || \
-       (( $(echo "$BATTERY_TEMP >= $HIGH_TEMP" | bc -l) )); then
-        echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
-        pkill -x "$PROCESS_NAME"
-    
          
     if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || \
        (( $(echo "$BATTERY_TEMP >= $HIGH_TEMP" | bc -l) )); then
