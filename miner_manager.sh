@@ -7,7 +7,7 @@ HIGH_TEMP=42
 SAFE_TEMP=38
 
 # Specify the process name or command
-COMMAND_TO_RUN="bash ~/init.sh"
+COMMAND_TO_RUN="bash ~/rqiner-mobile/start.sh"
 
 # Infinite loop to monitor battery status
 while true; do
