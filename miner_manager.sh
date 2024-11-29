@@ -15,12 +15,19 @@ while true; do
     BATTERY_INFO=$(termux-battery-status)
     BATTERY_PERCENT=$(echo "$BATTERY_INFO" | jq '.percentage')
     BATTERY_TEMP=$(echo "$BATTERY_INFO" | jq '.temperature')
-
-    if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || [[ "$BATTERY_TEMP" -ge "$HIGH_TEMP" ]]; then
+    if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || \
+       (( $(echo "$BATTERY_TEMP >= $HIGH_TEMP" | bc -l) )); then
+        echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
+        pkill -x "$PROCESS_NAME"
+    
+         
+    if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || \
+       (( $(echo "$BATTERY_TEMP >= $HIGH_TEMP" | bc -l) )); then
         echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
         pkill -x rqiner
         pkill -x ccminer
-    elif [[ "$BATTERY_PERCENT" -ge "$HIGH_BATTERY" ]] && [ ["$BATTERY_TEMP" -le "$SAFE_TEMP" ]]; then
+    elif [[ "$BATTERY_PERCENT" -ge "$HIGH_BATTERY" ]] && \
+         (( $(echo "$BATTERY_TEMP <= $SAFE_TEMP" | bc -l) )); then
         echo "Conditions met to start process: Battery Sufficient ($BATTERY_PERCENT%) and Safe Temp ($BATTERY_TEMP°C)."
         $COMMAND_TO_RUN &
     fi
