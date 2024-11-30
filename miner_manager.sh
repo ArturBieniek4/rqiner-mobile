@@ -21,8 +21,8 @@ while true; do
     # Stop process if battery is low or temperature is high
     if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || \
        (( $(echo "$BATTERY_TEMP >= $HIGH_TEMP" | bc -l) )); then
+        echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
         if [[ "$IS_RUNNING" -eq 1 ]]; then
-            echo "Conditions met to stop process: Battery Low ($BATTERY_PERCENT%) or High Temp ($BATTERY_TEMP°C)."
             pkill -x rqiner
             pkill -x ccminer
             IS_RUNNING=0  # Update state to not running
