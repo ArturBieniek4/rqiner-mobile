@@ -17,7 +17,7 @@ while true; do
     BATTERY_INFO=$(termux-battery-status)
     BATTERY_PERCENT=$(echo "$BATTERY_INFO" | jq '.percentage')
     BATTERY_TEMP=$(echo "$BATTERY_INFO" | jq '.temperature')
-         
+    echo "Battery ($BATTERY_PERCENT%) Temp ($BATTERY_TEMP°C)."
     # Stop process if battery is low or temperature is high
     if [[ "$BATTERY_PERCENT" -le "$LOW_BATTERY" ]] || \
        (( $(echo "$BATTERY_TEMP >= $HIGH_TEMP" | bc -l) )); then
