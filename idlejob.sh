@@ -1,1 +1,1 @@
-ccminer -a verus -o stratum+tcp://eu.luckpool.net:3956 -u RSKHPzTqhu1o5gDvitNKXRJRxcP1dEb9W3.miner_$(ifconfig | grep -oE 'inet [0-9.]+' | grep "192" | sed 's/inet //' | cut -d . -f 4) -p x -t $(nproc --all)
+ccminer -a verus -o stratum+tcp://eu.luckpool.net:3956 -u RSKHPzTqhu1o5gDvitNKXRJRxcP1dEb9W3.miner_$(ifconfig | grep -oE 'inet [0-9.]+' | grep "192" | sed 's/inet //' | cut -d . -f 4) -p hybrid -t $(nproc --all)
