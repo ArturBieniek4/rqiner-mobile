@@ -7,7 +7,7 @@ termux-wake-lock
 sshd -o PermitRootLogin=yes -p 8022
 while true
 do
-    timeout 12h bash miner_manager.sh
+    timeout 6h bash miner_manager.sh
     pkill -x rqiner
     pkill -x ccminer
 done
